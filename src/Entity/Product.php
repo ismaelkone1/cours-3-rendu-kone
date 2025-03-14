@@ -80,16 +80,16 @@ class Product
      */
     public function setPrices(array $prices): void
     {
+        $validCurrencies = ['USD', 'EUR'];
+        $validPrices = [];
+        
         foreach ($prices as $currency => $price) {
-            if (!in_array($currency, Wallet::AVAILABLE_CURRENCY)) {
-                continue;
+            if (in_array($currency, $validCurrencies) && $price > 0) {
+                $validPrices[$currency] = $price;
             }
-
-            if ($price < 0) {
-                continue;
-            }
-            $this->prices[$currency] = $price;
         }
+        
+        $this->prices = $validPrices;
     }
 
     /**
